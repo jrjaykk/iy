@@ -93,9 +93,74 @@
             cursor: pointer;
         }
 
-        .start-btn:hover,
-        .login-btn:hover {
-            opacity: 0.85;
+        .login-box {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 400px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 12px;
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        .auth-card button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .signup-btn {
+            background: white;
+            color: black;
+        }
+
+        .login-submit {
+            background: #222;
+            color: white;
+            border: 1px solid #444 !important;
+        }
+
+        .close-btn {
+            background: transparent !important;
+            color: #aaa;
+            border: 1px solid #333 !important;
+        }
+
+        #message {
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 15px;
+            line-height: 1.5;
         }
 
         @media (max-width: 600px) {
@@ -106,7 +171,6 @@
             h1 {
                 font-size: 40px;
             }
-
             .subtitle {
                 font-size: 16px;
             }
@@ -119,7 +183,7 @@
     <nav class="navbar">
         <div class="logo">IY</div>
 
-        <button class="login-btn">
+        <button class="login-btn" onclick="openAuth()">
             LOGIN
         </button>
     </nav>
@@ -133,16 +197,178 @@
         <h1>Your Personal AI</h1>
 
         <p class="subtitle">
-            Meet IY — an intelligent personal AI assistant
-            designed to understand you, remember your preferences,
-            and help you with your everyday tasks.
+            Meet IY — your personal AI assistant.
+            IY will learn your preferences and help you
+            with your everyday tasks.
         </p>
 
-        <button class="start-btn">
+        <button class="start-btn" onclick="openAuth()">
             GET STARTED
         </button>
 
     </main>
+
+
+    <!-- AUTH SCREEN -->
+
+    <div class="login-box" id="authBox">
+
+        <div class="auth-card">
+
+            <h2>Welcome to IY</h2>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email address"
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+            >
+
+            <button class="signup-btn" onclick="signUp()">
+                CREATE ACCOUNT
+            </button>
+
+            <button class="login-submit" onclick="signIn()">
+                LOGIN
+            </button>
+
+            <button class="close-btn" onclick="closeAuth()">
+                CLOSE
+            </button>
+
+            <p id="message"></p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        // ==========================================
+        // SUPABASE CONFIGURATION
+        // ==========================================
+
+        const SUPABASE_URL = "https://dfumqvvwuluouhcnrgwh.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_zm5tDbYxidKSQed1cRnk8w_gqVTT4da";
+
+
+        const supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+
+        // ==========================================
+        // AUTH SCREEN
+        // ==========================================
+
+        function openAuth() {
+            document.getElementById("authBox").style.display = "flex";
+        }
+
+        function closeAuth() {
+            document.getElementById("authBox").style.display = "none";
+            document.getElementById("message").textContent = "";
+        }
+
+
+        // ==========================================
+        // SIGN UP
+        // ==========================================
+
+        async function signUp() {
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+
+            if (!email || !password) {
+
+                document.getElementById("message").textContent =
+                    "Please enter email and password.";
+
+                return;
+            }
+
+
+            const { data, error } =
+                await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+
+            if (error) {
+
+                document.getElementById("message").textContent =
+                    error.message;
+
+                return;
+            }
+
+
+            document.getElementById("message").textContent =
+                "Account created! Check your email for verification.";
+        }
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        async function signIn() {
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+
+            if (!email || !password) {
+
+                document.getElementById("message").textContent =
+                    "Please enter email and password.";
+
+                return;
+            }
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+
+            if (error) {
+
+                document.getElementById("message").textContent =
+                    error.message;
+
+                return;
+            }
+
+
+            document.getElementById("message").textContent =
+                "Login successful!";
+
+        }
+
+    </script>
 
 </body>
 </html>
