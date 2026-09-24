@@ -26,7 +26,6 @@ function closeAuth() {
 // =========================
 
 async function signUp() {
-
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
@@ -36,7 +35,7 @@ async function signUp() {
     return;
   }
 
-  const { data, error } = await supabaseClient.auth.signUp({
+  const { error } = await supabaseClient.auth.signUp({
     email: email,
     password: password
   });
@@ -56,7 +55,6 @@ async function signUp() {
 // =========================
 
 async function signIn() {
-
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
@@ -66,7 +64,7 @@ async function signIn() {
     return;
   }
 
-  const { data, error } =
+  const { error } =
     await supabaseClient.auth.signInWithPassword({
       email: email,
       password: password
@@ -87,12 +85,10 @@ async function signIn() {
 // =========================
 
 function showDashboard() {
-
   document.querySelector(".navbar").style.display = "none";
   document.querySelector(".hero").style.display = "none";
 
   document.getElementById("authBox").style.display = "none";
-
   document.getElementById("dashboard").style.display = "block";
 }
 
@@ -102,7 +98,6 @@ function showDashboard() {
 // =========================
 
 async function logout() {
-
   await supabaseClient.auth.signOut();
 
   document.getElementById("dashboard").style.display = "none";
@@ -117,9 +112,7 @@ async function logout() {
 // =========================
 
 function sendMessage() {
-
   const input = document.getElementById("chatInput");
-
   const message = input.value.trim();
 
   if (!message) return;
@@ -150,7 +143,6 @@ function sendMessage() {
 // =========================
 
 async function checkUser() {
-
   const { data } =
     await supabaseClient.auth.getSession();
 
