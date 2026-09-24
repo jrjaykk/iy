@@ -369,5 +369,35 @@ document.getElementById("message").textContent =
 
     </script>
 
+    <!-- IY DASHBOARD -->
+<div id="dashboard" style="display:none;">
+  <div class="dashboard-header">
+    <div class="logo">IY</div>
+    <button onclick="logout()">LOGOUT</button>
+  </div>
+
+  <div class="dashboard-content">
+    <h1>Welcome to IY</h1>
+    <p>Your personal AI assistant is ready.</p>
+
+    <div class="chat-box">
+      <div id="chatMessages">
+        <div class="ai-message">
+          Hello! I'm IY. How can I help you?
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Ask IY anything..."
+        />
+        <button onclick="sendMessage()">SEND</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
