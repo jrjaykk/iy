@@ -1,403 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>IY - Personal AI</title>
+  <title>IY - Personal AI</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #080808;
-            color: white;
-            min-height: 100vh;
-        }
-
-        .navbar {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            border-bottom: 1px solid #222;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .login-btn {
-            padding: 11px 22px;
-            border: 1px solid #444;
-            border-radius: 8px;
-            background: white;
-            color: black;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 30px;
-        }
-
-        .ai-circle {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #444;
-            box-shadow: 0 0 40px rgba(255,255,255,0.08);
-            margin-bottom: 30px;
-            font-size: 42px;
-            font-weight: bold;
-        }
-
-        h1 {
-            font-size: 55px;
-            margin-bottom: 15px;
-        }
-
-        .subtitle {
-            color: #aaa;
-            font-size: 18px;
-            max-width: 600px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .start-btn {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 9px;
-            background: white;
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .login-box {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .auth-card {
-            width: 100%;
-            max-width: 400px;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 30px;
-        }
-
-        .auth-card h2 {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .auth-card input {
-            width: 100%;
-            padding: 13px;
-            margin-bottom: 12px;
-            background: #080808;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: white;
-            outline: none;
-        }
-
-        .auth-card button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 8px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .signup-btn {
-            background: white;
-            color: black;
-        }
-
-        .login-submit {
-            background: #222;
-            color: white;
-            border: 1px solid #444 !important;
-        }
-
-        .close-btn {
-            background: transparent !important;
-            color: #aaa;
-            border: 1px solid #333 !important;
-        }
-
-        #message {
-            text-align: center;
-            color: #aaa;
-            font-size: 14px;
-            margin-top: 15px;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 600px) {
-            .navbar {
-                padding: 0 20px;
-            }
-
-            h1 {
-                font-size: 40px;
-            }
-            .subtitle {
-                font-size: 16px;
-            }
-        }
-    </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <nav class="navbar">
-        <div class="logo">IY</div>
+  <!-- =========================
+       LANDING PAGE
+  ========================== -->
 
-        <button class="login-btn" onclick="openAuth()">
-            LOGIN
-        </button>
-    </nav>
+  <nav class="navbar">
 
-    <main class="hero">
+    <div class="logo">
+      IY
+    </div>
 
-        <div class="ai-circle">
-            IY
-        </div>
+    <button class="login-btn" onclick="openAuth()">
+      LOGIN
+    </button>
 
-        <h1>Your Personal AI</h1>
-
-        <p class="subtitle">
-            Meet IY — your personal AI assistant.
-            IY will learn your preferences and help you
-            with your everyday tasks.
-        </p>
-
-        <button class="start-btn" onclick="openAuth()">
-            GET STARTED
-        </button>
-
-    </main>
+  </nav>
 
 
-    <!-- AUTH SCREEN -->
+  <main class="hero">
 
-    <div class="login-box" id="authBox">
+    <div class="ai-circle">
+      IY
+    </div>
 
-        <div class="auth-card">
+    <h1>
+      Your Personal AI
+    </h1>
 
-            <h2>Welcome to IY</h2>
+    <p class="subtitle">
+      Meet IY — your personal AI assistant.
+      IY will learn your preferences and help you
+      with your everyday tasks.
+    </p>
 
-            <input
-                type="email"
-                id="email"
-                placeholder="Email address"
-            >
+    <button class="start-btn" onclick="openAuth()">
+      GET STARTED
+    </button>
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Password"
-            >
+  </main>
 
-            <button class="signup-btn" onclick="signUp()">
-                CREATE ACCOUNT
-            </button>
 
-            <button class="login-submit" onclick="signIn()">
-                LOGIN
-            </button>
 
-            <button class="close-btn" onclick="closeAuth()">
-                CLOSE
-            </button>
+  <!-- =========================
+       LOGIN / SIGNUP
+  ========================== -->
 
-            <p id="message"></p>
+  <div class="login-box" id="authBox">
 
-        </div>
+    <div class="auth-card">
+
+      <h2>
+        Welcome to IY
+      </h2>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Email address"
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+      <button
+        class="signup-btn"
+        onclick="signUp()"
+      >
+        CREATE ACCOUNT
+      </button>
+
+      <button
+        class="login-submit"
+        onclick="signIn()"
+      >
+        LOGIN
+      </button>
+
+      <button
+        class="close-btn"
+        onclick="closeAuth()"
+      >
+        CLOSE
+      </button>
+
+      <p id="message"></p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       DASHBOARD
+  ========================== -->
+
+  <div id="dashboard">
+
+    <div class="dashboard-header">
+
+      <div class="logo">
+        IY
+      </div>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        LOGOUT
+      </button>
 
     </div>
 
 
-    <!-- SUPABASE -->
+    <div class="dashboard-content">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      <h1>
+        Welcome to IY
+      </h1>
 
-    <script>
-
-        // ==========================================
-        // SUPABASE CONFIGURATION
-        // ==========================================
-
-        const SUPABASE_URL = "https://dfumqvvwuluouhcnrgwh.supabase.co";
-
-        const SUPABASE_PUBLISHABLE_KEY =
-            "sb_publishable_zm5tDbYxidKSQed1cRnk8w_gqVTT4da";
+      <p>
+        Your personal AI assistant is ready.
+      </p>
 
 
-        const supabaseClient = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-        );
+      <!-- CHAT -->
 
+      <div class="chat-box">
 
-        // ==========================================
-        // AUTH SCREEN
-        // ==========================================
+        <div id="chatMessages">
 
-        function openAuth() {
-            document.getElementById("authBox").style.display = "flex";
-        }
+          <div class="ai-message">
+            Hello! I'm IY. How can I help you?
+          </div>
 
-        function closeAuth() {
-            document.getElementById("authBox").style.display = "none";
-            document.getElementById("message").textContent = "";
-        }
-
-
-        // ==========================================
-        // SIGN UP
-        // ==========================================
-
-        async function signUp() {
-
-            const email =
-                document.getElementById("email").value.trim();
-
-            const password =
-                document.getElementById("password").value;
-
-
-            if (!email || !password) {
-
-                document.getElementById("message").textContent =
-                    "Please enter email and password.";
-
-                return;
-            }
-
-
-            const { data, error } =
-                await supabaseClient.auth.signUp({
-                    email: email,
-                    password: password
-                });
-
-
-            if (error) {
-
-                document.getElementById("message").textContent =
-                    error.message;
-
-                return;
-            }
-
-document.getElementById("message").textContent =
-"Account created successfully! You can now login.";
-        }
-
-
-        // ==========================================
-        // LOGIN
-        // ==========================================
-
-        async function signIn() {
-
-            const email =
-                document.getElementById("email").value.trim();
-
-            const password =
-                document.getElementById("password").value;
-
-
-            if (!email || !password) {
-
-                document.getElementById("message").textContent =
-                    "Please enter email and password.";
-
-                return;
-            }
-            const { data, error } =
-                await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-
-            if (error) {
-
-                document.getElementById("message").textContent =
-                    error.message;
-
-                return;
-            }
-
-
-            document.getElementById("message").textContent =
-                "Login successful!";
-
-        }
-
-    </script>
-
-    <!-- IY DASHBOARD -->
-<div id="dashboard" style="display:none;">
-  <div class="dashboard-header">
-    <div class="logo">IY</div>
-    <button onclick="logout()">LOGOUT</button>
-  </div>
-
-  <div class="dashboard-content">
-    <h1>Welcome to IY</h1>
-    <p>Your personal AI assistant is ready.</p>
-
-    <div class="chat-box">
-      <div id="chatMessages">
-        <div class="ai-message">
-          Hello! I'm IY. How can I help you?
         </div>
+
+
+        <div class="chat-input">
+
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Ask IY anything..."
+          >
+
+          <button onclick="sendMessage()">
+            SEND
+          </button>
+
+        </div>
+
       </div>
 
-      <div class="chat-input">
-        <input
-          type="text"
-          id="chatInput"
-          placeholder="Ask IY anything..."
-        />
-        <button onclick="sendMessage()">SEND</button>
-      </div>
     </div>
+
   </div>
-</div>
+
+
+
+  <!-- =========================
+       SUPABASE
+  ========================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- IY JAVASCRIPT -->
+
+  <script src="script.js"></script>
 
 </body>
+
 </html>
