@@ -41,7 +41,8 @@ async function signUp() {
   });
 
   if (error) {
-    document.getElementById("message").textContent = error.message;
+    document.getElementById("message").textContent =
+      error.message;
     return;
   }
 
