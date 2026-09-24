@@ -1,0 +1,282 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #080808;
+  color: white;
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+
+.navbar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid #222;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.login-btn {
+  padding: 11px 22px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: white;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* LANDING PAGE */
+
+.hero {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+}
+
+.ai-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #444;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+  margin-bottom: 30px;
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.hero h1 {
+  font-size: 55px;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  color: #aaa;
+  font-size: 18px;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  padding: 14px 30px;
+  border: none;
+  border-radius: 9px;
+  background: white;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* AUTH BOX */
+
+.login-box {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 12px;
+  background: #080808;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  outline: none;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-btn {
+  background: white;
+  color: black;
+}
+
+.login-submit {
+  background: #222;
+  color: white;
+  border: 1px solid #444 !important;
+}
+
+.close-btn {
+  background: transparent !important;
+  color: #aaa;
+  border: 1px solid #333 !important;
+}
+
+#message {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+/* DASHBOARD */
+
+#dashboard {
+  display: none;
+  min-height: 100vh;
+  background: #080808;
+}
+
+.dashboard-header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid #222;
+}
+
+.logout-btn {
+  padding: 10px 18px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.dashboard-content {
+  max-width: 900px;
+  margin: auto;
+  padding: 60px 20px;
+}
+
+.dashboard-content h1 {
+  margin-bottom: 10px;
+}
+
+.dashboard-content p {
+  color: #999;
+  margin-bottom: 30px;
+}
+
+/* CHAT */
+
+.chat-box {
+  border: 1px solid #333;
+  border-radius: 15px;
+  min-height: 450px;
+  padding: 20px;
+  background: #0d0d0d;
+}
+
+#chatMessages {
+  min-height: 350px;
+}
+
+.ai-message {
+  display: inline-block;
+  background: #1a1a1a;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 13px;
+  background: #080808;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 8px;
+  outline: none;
+}
+
+.chat-input button {
+  padding: 13px 20px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .dashboard-header {
+    padding: 0 20px;
+  }
+
+  .dashboard-content {
+    padding: 40px 15px;
+  }
+
+  .chat-input {
+    flex-direction: column;
+  }
+  .chat-input button {
+    width: 100%;
+  }
+}
