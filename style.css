@@ -408,3 +408,16 @@ body {
 .welcome-screen p {
   margin-bottom: 40px; /* chat box se gap */
 }
+
+.dashboard-welcome {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.dashboard-welcome h1 {
+  margin-bottom: 10px;
+}
+
+.dashboard-welcome p {
+  margin: 0;
+}
