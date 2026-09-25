@@ -169,20 +169,54 @@ async function loadChats() {
 
   data.forEach((chat, index) => {
 
-    const button =
+    const row = document.createElement("div");
+
+    row.className = "chat-history-row";
+
+
+    // CHAT BUTTON
+
+    const chatButton =
       document.createElement("button");
 
-    button.className =
+    chatButton.className =
       "chat-history-item";
 
-    button.textContent =
+    chatButton.textContent =
       chat.title || "Chat " + (index + 1);
 
-    button.onclick = function () {
+    chatButton.onclick = function () {
       openChat(chat.id, chat.title);
+      toggleMenu();
     };
 
-    chatList.appendChild(button);
+
+    // RENAME BUTTON
+
+    const renameButton =
+      document.createElement("button");
+
+    renameButton.className =
+      "rename-chat-btn";
+
+    renameButton.textContent = "✏️";
+
+    renameButton.onclick = function (event) {
+
+      event.stopPropagation();
+
+      renameChat(
+        chat.id,
+        chat.title || "Chat " + (index + 1)
+      );
+
+    };
+
+
+    row.appendChild(chatButton);
+    row.appendChild(renameButton);
+
+    chatList.appendChild(row);
 
   });
 }
@@ -325,8 +359,7 @@ async function sendMessage() {
   if (!message) return;
 
 
-  // Create a chat automatically
-  // if no chat is currently selected
+  // Create chat if no chat is selected
 
   if (!currentChatId) {
     await createNewChat();
@@ -334,6 +367,8 @@ async function sendMessage() {
 
   if (!currentChatId) return;
 
+
+  // Get logged-in user
 
   const {
     data: { user },
@@ -346,7 +381,7 @@ async function sendMessage() {
   }
 
 
-  // Save USER message in Supabase
+  // Save user message
 
   const { error } = await supabaseClient
     .from("messages")
@@ -365,16 +400,56 @@ async function sendMessage() {
   }
 
 
-  // Show message on screen
+  // Show message
 
   addChatMessage(
     "user",
     message
   );
 
-  input.value = "";
-}
 
+  // =========================
+  // AUTOMATIC CHAT TITLE
+  // =========================
+
+  const { data: currentChat, error: chatError } =
+    await supabaseClient
+      .from("chats")
+      .select("title")
+      .eq("id", currentChatId)
+      .single();
+
+  if (!chatError && currentChat) {
+
+    if (currentChat.title === "New Chat") {
+
+      let autoTitle = message.trim();
+
+      if (autoTitle.length > 30) {
+        autoTitle =
+          autoTitle.substring(0, 30) + "...";
+      }
+
+      await supabaseClient
+        .from("chats")
+        .update({
+          title: autoTitle
+        })
+        .eq("id", currentChatId);
+
+      document.getElementById("chatTitle").textContent =
+        autoTitle;
+
+      await loadChats();
+    }
+  }
+
+
+  // Clear input
+
+  input.value = "";
+
+}
 
 // =========================
 // ENTER TO SEND
@@ -418,3 +493,51 @@ function toggleMenu() {
   }
 
 }
+
+// =========================
+// RENAME CHAT
+// =========================
+
+async function renameChat(chatId, oldTitle) {
+
+  const newTitle =
+    prompt("Enter a name for this chat:", oldTitle);
+
+  if (newTitle === null) {
+    return;
+  }
+
+  const title = newTitle.trim();
+
+  if (!title) {
+    alert("Chat name cannot be empty.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("chats")
+    .update({
+      title: title
+    })
+    .eq("id", chatId);
+
+  if (error) {
+
+    console.error("Rename chat error:", error);
+
+    alert("Unable to rename chat.");
+
+    return;
+  }
+
+  if (currentChatId === chatId) {
+
+    document.getElementById("chatTitle").textContent =
+      title;
+
+  }
+
+  await loadChats();
+
+}
+
