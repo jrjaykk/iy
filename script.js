@@ -200,7 +200,7 @@ async function loadChats() {
     button.className = "chat-history-item";
 
     button.textContent =
-      chat.title || `Chat ${index + 1}`;
+      chat.title || "Chat " + (index + 1);
 
     button.onclick = function () {
       openChat(chat.id, chat.title);
