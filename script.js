@@ -283,21 +283,18 @@ function toggleAllChats() {
   const allChatList =
     document.getElementById("allChatList");
 
-  const button =
-    document.querySelector(".all-chats-btn");
-
+  if (!allChatList) {
+    console.error("allChatList not found");
+    return;
+  }
 
   if (allChatList.style.display === "none") {
 
     allChatList.style.display = "block";
 
-    button.textContent = "HIDE ALL CHATS";
-
   } else {
 
     allChatList.style.display = "none";
-
-    button.textContent = "ALL CHATS";
 
   }
 
