@@ -267,33 +267,6 @@ async function deleteChat(chatId) {
 
     // RENAME BUTTON
 
-    const renameButton =
-      document.createElement("button");
-
-    renameButton.className =
-      "rename-chat-btn";
-
-    renameButton.textContent = "✏️";
-
-    renameButton.onclick = function (event) {
-
-      event.stopPropagation();
-
-      renameChat(
-        chat.id,
-        chat.title || "Chat " + (index + 1)
-      );
-
-    };
-
-
-    row.appendChild(chatButton);
-    row.appendChild(renameButton);
-
-    chatList.appendChild(row);
-
- 
-
 
 
 // =========================
