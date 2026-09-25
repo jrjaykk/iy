@@ -260,7 +260,7 @@ function showChatOptions(chatId, chatTitle, button) {
 
     chatList.appendChild(row);
 
-  );
+ 
 
 
 
