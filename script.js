@@ -318,7 +318,7 @@ function addChatMessage(role, content) {
     messageDiv.style.textAlign = "right";
     messageDiv.style.margin = "10px 0";
 
-    messageDiv.innerHTML = 
+    messageDiv.innerHTML = `
       <span style="
         background:white;
         color:black;
@@ -328,7 +328,7 @@ function addChatMessage(role, content) {
       ">
         ${content}
       </span>
-    ;
+   ` ;
 
   } else {
 
