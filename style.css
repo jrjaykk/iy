@@ -333,3 +333,62 @@ body {
 #chatList button {
   width: 100%;
 }
+
+/* CHAT HISTORY ROW */
+.chat-history-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* CHAT NAME */
+.chat-history-item {
+  flex: 1;
+  text-align: left;
+}
+
+/* THREE DOTS */
+.chat-options-btn {
+  width: 38px !important;
+  min-width: 38px;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.chat-options-btn:hover {
+  background: #222;
+}
+
+/* OPTIONS MENU */
+.chat-options-menu {
+  position: absolute;
+  right: 5px;
+  top: 42px;
+  width: 140px;
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 5px;
+  z-index: 1500;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.chat-options-menu button {
+  width: 100%;
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.chat-options-menu button:hover {
+  background: #252525;
+}
