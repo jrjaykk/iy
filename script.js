@@ -121,7 +121,7 @@ function sendMessage() {
   const chatMessages =
     document.getElementById("chatMessages");
 
-  chatMessages.innerHTML += 
+  chatMessages.innerHTML += `
     <div style="text-align:right; margin:10px 0;">
       <span style="
         background:white;
@@ -133,7 +133,7 @@ function sendMessage() {
         ${message}
       </span>
     </div>
-  ;
+  ` ;
 
   input.value = "";
 }
