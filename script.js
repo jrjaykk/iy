@@ -91,6 +91,7 @@ function showDashboard() {
 
   document.getElementById("authBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
+  loadChats();
 }
 
 
