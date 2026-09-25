@@ -153,3 +153,282 @@ async function checkUser() {
 }
 
 checkUser();
+
+// =========================
+// CHAT SYSTEM
+// =========================
+
+let currentChatId = null;
+
+
+// =========================
+// LOAD USER CHATS
+// =========================
+
+async function loadChats() {
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    console.log("User not logged in");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("chats")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Chat loading error:", error);
+    return;
+  }
+
+  const chatList = document.getElementById("chatList");
+
+  chatList.innerHTML = "";
+
+  data.forEach((chat, index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "chat-history-item";
+
+    button.textContent =
+      chat.title || Chat ${index + 1};
+
+    button.onclick = function () {
+      openChat(chat.id, chat.title);
+    };
+
+    chatList.appendChild(button);
+
+  });
+}
+
+
+// =========================
+// CREATE NEW CHAT
+// =========================
+
+async function createNewChat() {
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    alert("Please login first.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("chats")
+    .insert([
+      {
+        user_id: user.id,
+        title: "New Chat"
+      }
+    ])
+    .select()
+    .single();
+
+  if (error) {
+
+    console.error("Create chat error:", error);
+
+    alert("Unable to create new chat.");
+
+    return;
+  }
+
+  currentChatId = data.id;
+
+  document.getElementById("chatTitle").textContent =
+    data.title;
+
+  document.getElementById("chatMessages").innerHTML = "";
+
+  await loadChats();
+
+}
+
+
+// =========================
+// OPEN CHAT
+// =========================
+
+async function openChat(chatId, title) {
+
+  currentChatId = chatId;
+
+  document.getElementById("chatTitle").textContent =
+    title || "Chat";
+
+  const chatMessages =
+    document.getElementById("chatMessages");
+
+  chatMessages.innerHTML = "";
+
+  const { data, error } = await supabaseClient
+    .from("messages")
+    .select("*")
+    .eq("chat_id", chatId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+
+    console.error("Message loading error:", error);
+
+    return;
+  }
+
+  data.forEach(message => {
+
+    addChatMessage(
+      message.role,
+      message.content
+    );
+
+  });
+
+}
+
+
+// =========================
+// ADD MESSAGE TO UI
+// =========================
+
+function addChatMessage(role, content) {
+
+  const chatMessages =
+    document.getElementById("chatMessages");
+
+  const messageDiv =
+    document.createElement("div");
+
+  if (role === "user") {
+
+    messageDiv.style.textAlign = "right";
+    messageDiv.style.margin = "10px 0";
+
+    messageDiv.innerHTML = 
+      <span style="
+        background:white;
+        color:black;
+        padding:10px 14px;
+        border-radius:10px;
+        display:inline-block;
+      ">
+        ${content}
+      </span>
+    ;
+
+  } else {
+
+    messageDiv.className = "ai-message";
+    messageDiv.textContent = content;
+
+  }
+
+  chatMessages.appendChild(messageDiv);
+
+}
+
+
+// =========================
+// SEND MESSAGE
+// =========================
+
+async function sendMessage() {
+
+  const input =
+    document.getElementById("chatInput");
+
+  const message =
+    input.value.trim();
+
+  if (!message) return;
+
+
+  // If no chat exists, create one first
+
+  if (!currentChatId) {
+
+    await createNewChat();
+
+  }
+
+  if (!currentChatId) return;
+
+
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+
+  if (!user) return;
+
+
+  // Save USER message
+
+  const { error } = await supabaseClient
+    .from("messages")
+    .insert([
+      {
+        chat_id: currentChatId,
+        user_id: user.id,
+        role: "user",
+        content: message
+      }
+    ]);
+
+  if (error) {
+
+    console.error("Message save error:", error);
+
+    return;
+  }
+
+
+  // Show message
+
+  addChatMessage(
+    "user",
+    message
+  );
+
+  input.value = "";
+
+}
+
+// =========================
+// ENTER TO SEND
+// =========================
+
+function handleChatKey(event) {
+
+  if (event.key === "Enter") {
+
+    sendMessage();
+
+  }
+
+}
+
+
+// =========================
+// PERSONAL MEMORY
+// =========================
+
+function showMemory() {
+
+  alert(
+    "Personal Memory will be connected in the next step."
+  );
+
+}
