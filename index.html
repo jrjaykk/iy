@@ -156,9 +156,36 @@
       CHAT HISTORY
     </div>
 
-    <div id="chatList">
-      <!-- Chats will appear here -->
-    </div>
+   <div class="recent-chats-section">
+
+  <div class="chat-section-title">
+    RECENT CHATS
+  </div>
+
+  <div id="recentChatList">
+    <!-- Latest 4 chats -->
+  </div>
+
+</div>
+
+
+<div class="all-chats-section">
+
+  <button
+    class="all-chats-btn"
+    onclick="toggleAllChats()"
+  >
+    ALL CHATS
+  </button>
+
+  <div
+    id="allChatList"
+    style="display: none;"
+  >
+    <!-- All chats -->
+  </div>
+
+</div>
 
 
     <button
