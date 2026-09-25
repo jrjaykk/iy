@@ -91,6 +91,7 @@ function showDashboard() {
 
   document.getElementById("authBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
+
   loadChats();
 }
 
@@ -102,41 +103,12 @@ function showDashboard() {
 async function logout() {
   await supabaseClient.auth.signOut();
 
+  currentChatId = null;
+
   document.getElementById("dashboard").style.display = "none";
 
   document.querySelector(".navbar").style.display = "flex";
   document.querySelector(".hero").style.display = "flex";
-}
-
-
-// =========================
-// TEST CHAT
-// =========================
-
-function sendMessage() {
-  const input = document.getElementById("chatInput");
-  const message = input.value.trim();
-
-  if (!message) return;
-
-  const chatMessages =
-    document.getElementById("chatMessages");
-
-  chatMessages.innerHTML += `
-    <div style="text-align:right; margin:10px 0;">
-      <span style="
-        background:white;
-        color:black;
-        padding:10px 14px;
-        border-radius:10px;
-        display:inline-block;
-      ">
-        ${message}
-      </span>
-    </div>
-  ` ;
-
-  input.value = "";
 }
 
 
@@ -154,6 +126,7 @@ async function checkUser() {
 }
 
 checkUser();
+
 
 // =========================
 // CHAT SYSTEM
@@ -189,15 +162,18 @@ async function loadChats() {
     return;
   }
 
-  const chatList = document.getElementById("chatList");
+  const chatList =
+    document.getElementById("chatList");
 
   chatList.innerHTML = "";
 
   data.forEach((chat, index) => {
 
-    const button = document.createElement("button");
+    const button =
+      document.createElement("button");
 
-    button.className = "chat-history-item";
+    button.className =
+      "chat-history-item";
 
     button.textContent =
       chat.title || "Chat " + (index + 1);
@@ -238,13 +214,9 @@ async function createNewChat() {
     ])
     .select()
     .single();
-
   if (error) {
-
     console.error("Create chat error:", error);
-
     alert("Unable to create new chat.");
-
     return;
   }
 
@@ -256,7 +228,6 @@ async function createNewChat() {
   document.getElementById("chatMessages").innerHTML = "";
 
   await loadChats();
-
 }
 
 
@@ -283,9 +254,7 @@ async function openChat(chatId, title) {
     .order("created_at", { ascending: true });
 
   if (error) {
-
     console.error("Message loading error:", error);
-
     return;
   }
 
@@ -297,7 +266,6 @@ async function openChat(chatId, title) {
     );
 
   });
-
 }
 
 
@@ -318,16 +286,18 @@ function addChatMessage(role, content) {
     messageDiv.style.textAlign = "right";
     messageDiv.style.margin = "10px 0";
 
-    messageDiv.innerHTML =
-      '<span style="' +
-      'background:white;' +
-      'color:black;' +
-      'padding:10px 14px;' +
-      'border-radius:10px;' +
-      'display:inline-block;' +
-      '">' +
-      content +
-      '</span>';
+    const messageBubble =
+      document.createElement("span");
+
+    messageBubble.style.background = "white";
+    messageBubble.style.color = "black";
+    messageBubble.style.padding = "10px 14px";
+    messageBubble.style.borderRadius = "10px";
+    messageBubble.style.display = "inline-block";
+
+    messageBubble.textContent = content;
+
+    messageDiv.appendChild(messageBubble);
 
   } else {
 
@@ -338,6 +308,7 @@ function addChatMessage(role, content) {
 
   chatMessages.appendChild(messageDiv);
 }
+
 
 // =========================
 // SEND MESSAGE
@@ -354,25 +325,28 @@ async function sendMessage() {
   if (!message) return;
 
 
-  // If no chat exists, create one first
+  // Create a chat automatically
+  // if no chat is currently selected
 
   if (!currentChatId) {
-
     await createNewChat();
-
   }
 
   if (!currentChatId) return;
 
 
   const {
-    data: { user }
+    data: { user },
+    error: userError
   } = await supabaseClient.auth.getUser();
 
-  if (!user) return;
+  if (userError || !user) {
+    console.log("User not logged in.");
+    return;
+  }
 
 
-  // Save USER message
+  // Save USER message in Supabase
 
   const { error } = await supabaseClient
     .from("messages")
@@ -386,14 +360,12 @@ async function sendMessage() {
     ]);
 
   if (error) {
-
     console.error("Message save error:", error);
-
     return;
   }
 
 
-  // Show message
+  // Show message on screen
 
   addChatMessage(
     "user",
@@ -401,8 +373,8 @@ async function sendMessage() {
   );
 
   input.value = "";
-
 }
+
 
 // =========================
 // ENTER TO SEND
@@ -411,9 +383,7 @@ async function sendMessage() {
 function handleChatKey(event) {
 
   if (event.key === "Enter") {
-
     sendMessage();
-
   }
 
 }
