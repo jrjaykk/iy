@@ -140,11 +140,8 @@ let currentChatId = null;
 // =========================
 
 async function loadChats() {
-
-  const {
-    data: { user },
-    error: userError
-  } = await supabaseClient.auth.getUser();
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
 
   if (userError || !user) {
     console.log("User not logged in");
@@ -162,26 +159,18 @@ async function loadChats() {
     return;
   }
 
-  const chatList =
-    document.getElementById("chatList");
-
+  const chatList = document.getElementById("chatList");
   chatList.innerHTML = "";
 
   data.forEach((chat, index) => {
 
+    // Chat row
     const row = document.createElement("div");
-
     row.className = "chat-history-row";
 
-
-    // CHAT BUTTON
-
-    const chatButton =
-      document.createElement("button");
-
-    chatButton.className =
-      "chat-history-item";
-
+    // Chat name button
+    const chatButton = document.createElement("button");
+    chatButton.className = "chat-history-item";
     chatButton.textContent =
       chat.title || "Chat " + (index + 1);
 
@@ -190,6 +179,59 @@ async function loadChats() {
       toggleMenu();
     };
 
+    // Three dots button
+    const optionsButton = document.createElement("button");
+    optionsButton.className = "chat-options-btn";
+    optionsButton.textContent = "⋮";
+
+    optionsButton.onclick = function (event) {
+      event.stopPropagation();
+      showChatOptions(chat.id, chat.title, optionsButton);
+    };
+
+    row.appendChild(chatButton);
+    row.appendChild(optionsButton);
+
+    chatList.appendChild(row);
+  });
+}
+    
+function showChatOptions(chatId, chatTitle, button) {
+
+  // Agar koi purana options menu open hai, use hatao
+  const oldMenu = document.querySelector(".chat-options-menu");
+
+  if (oldMenu) {
+    oldMenu.remove();
+  }
+
+  // Options menu banao
+  const menu = document.createElement("div");
+  menu.className = "chat-options-menu";
+
+  // Rename button
+  const renameBtn = document.createElement("button");
+  renameBtn.textContent = "✏️ Rename";
+
+  renameBtn.onclick = function () {
+    renameChat(chatId, chatTitle);
+    menu.remove();
+  };
+
+  // Delete button
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "🗑️ Delete";
+
+  deleteBtn.onclick = function () {
+    deleteChat(chatId);
+    menu.remove();
+  };
+
+  menu.appendChild(renameBtn);
+  menu.appendChild(deleteBtn);
+
+  button.parentElement.appendChild(menu);
+}
 
     // RENAME BUTTON
 
