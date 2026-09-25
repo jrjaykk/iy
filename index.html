@@ -110,17 +110,64 @@
        DASHBOARD
   ========================== -->
 
- <!-- =========================
+<!-- =========================
      DASHBOARD
 ========================= -->
 
 <div id="dashboard">
+
+  <!-- DASHBOARD HEADER -->
 
   <div class="dashboard-header">
 
     <div class="logo">
       IY
     </div>
+
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()"
+      aria-label="Open menu"
+    >
+      ☰
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       MENU
+  ========================== -->
+
+  <div
+    id="dashboardMenu"
+    class="dashboard-menu"
+  >
+
+    <button
+      class="new-chat-btn"
+      onclick="createNewChat(); toggleMenu();"
+    >
+      + NEW CHAT
+    </button>
+
+
+    <div class="menu-title">
+      CHAT HISTORY
+    </div>
+
+    <div id="chatList">
+      <!-- Chats will appear here -->
+    </div>
+
+
+    <button
+      class="memory-btn"
+      onclick="showMemory(); toggleMenu();"
+    >
+      🧠 PERSONAL MEMORY
+    </button>
+
 
     <button
       class="logout-btn"
@@ -132,54 +179,18 @@
   </div>
 
 
+  <!-- =========================
+       MAIN CHAT
+  ========================== -->
+
   <div class="dashboard-layout">
 
-    <!-- =========================
-         CHAT SIDEBAR
-    ========================== -->
-
-    <aside class="chat-sidebar">
-
-      <button
-        class="new-chat-btn"
-        onclick="createNewChat()"
-      >
-        + NEW CHAT
-      </button>
-
-      <h3>CHAT HISTORY</h3>
-
-      <div id="chatList">
-        <!-- Chats will appear here -->
-      </div>
-
-      <div class="memory-section">
-
-        <button
-          class="memory-btn"
-          onclick="showMemory()"
-        >
-          🧠 PERSONAL MEMORY
-        </button>
-
-      </div>
-
-    </aside>
-
-
-    <!-- =========================
-         MAIN CHAT
-    ========================== -->
-
-    
-
-    
     <main class="chat-main">
 
       <div class="dashboard-welcome">
 
         <h1 id="chatTitle">
-           Welcome to IY
+          Welcome to IY
         </h1>
 
         <p>
@@ -222,9 +233,6 @@
   </div>
 
 </div>
-
-
-    <div class="dashboard-content">
 
 
 
