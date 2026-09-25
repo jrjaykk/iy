@@ -110,22 +110,115 @@
        DASHBOARD
   ========================== -->
 
-  <div id="dashboard">
+ <!-- =========================
+     DASHBOARD
+========================= -->
 
-    <div class="dashboard-header">
+<div id="dashboard">
 
-      <div class="logo">
-        IY
-      </div>
+  <div class="dashboard-header">
+
+    <div class="logo">
+      IY
+    </div>
+
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
+      LOGOUT
+    </button>
+
+  </div>
+
+
+  <div class="dashboard-layout">
+
+    <!-- =========================
+         CHAT SIDEBAR
+    ========================== -->
+
+    <aside class="chat-sidebar">
 
       <button
-        class="logout-btn"
-        onclick="logout()"
+        class="new-chat-btn"
+        onclick="createNewChat()"
       >
-        LOGOUT
+        + NEW CHAT
       </button>
 
-    </div>
+      <h3>CHAT HISTORY</h3>
+
+      <div id="chatList">
+        <!-- Chats will appear here -->
+      </div>
+
+      <div class="memory-section">
+
+        <button
+          class="memory-btn"
+          onclick="showMemory()"
+        >
+          🧠 PERSONAL MEMORY
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CHAT
+    ========================== -->
+
+    <main class="chat-main">
+
+      <div class="dashboard-welcome">
+
+        <h1 id="chatTitle">
+          New Chat
+        </h1>
+
+        <p>
+          Your personal AI assistant is ready.
+        </p>
+
+      </div>
+
+
+      <div class="chat-box">
+
+        <div id="chatMessages">
+
+          <div class="ai-message">
+            Hello! I'm IY. How can I help you?
+          </div>
+
+        </div>
+
+
+        <div class="chat-input">
+
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Ask IY anything..."
+            onkeydown="handleChatKey(event)"
+          >
+
+          <button onclick="sendMessage()">
+            SEND
+          </button>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
 
 
     <div class="dashboard-content">
