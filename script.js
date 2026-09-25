@@ -318,17 +318,16 @@ function addChatMessage(role, content) {
     messageDiv.style.textAlign = "right";
     messageDiv.style.margin = "10px 0";
 
-    messageDiv.innerHTML = `
-      <span style="
-        background:white;
-        color:black;
-        padding:10px 14px;
-        border-radius:10px;
-        display:inline-block;
-      ">
-        ${content}
-      </span>
-   ` ;
+    messageDiv.innerHTML =
+      '<span style="' +
+      'background:white;' +
+      'color:black;' +
+      'padding:10px 14px;' +
+      'border-radius:10px;' +
+      'display:inline-block;' +
+      '">' +
+      content +
+      '</span>';
 
   } else {
 
@@ -338,9 +337,7 @@ function addChatMessage(role, content) {
   }
 
   chatMessages.appendChild(messageDiv);
-
 }
-
 
 // =========================
 // SEND MESSAGE
