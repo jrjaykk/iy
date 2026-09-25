@@ -140,8 +140,11 @@ let currentChatId = null;
 // =========================
 
 async function loadChats() {
-  const { data: { user }, error: userError } =
-    await supabaseClient.auth.getUser();
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
 
   if (userError || !user) {
     console.log("User not logged in");
@@ -152,48 +155,152 @@ async function loadChats() {
     .from("chats")
     .select("*")
     .eq("user_id", user.id)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Chat loading error:", error);
     return;
   }
 
-  const chatList = document.getElementById("chatList");
-  chatList.innerHTML = "";
+  const recentChatList =
+    document.getElementById("recentChatList");
 
-  data.forEach((chat, index) => {
+  const allChatList =
+    document.getElementById("allChatList");
 
-    // Chat row
+  recentChatList.innerHTML = "";
+  allChatList.innerHTML = "";
+
+
+  // =========================
+  // CREATE CHAT ROW
+  // =========================
+
+  function createChatRow(chat, index) {
+
     const row = document.createElement("div");
+
     row.className = "chat-history-row";
 
-    // Chat name button
-    const chatButton = document.createElement("button");
-    chatButton.className = "chat-history-item";
+
+    // Chat button
+
+    const chatButton =
+      document.createElement("button");
+
+    chatButton.className =
+      "chat-history-item";
+
     chatButton.textContent =
       chat.title || "Chat " + (index + 1);
 
+
     chatButton.onclick = function () {
-      openChat(chat.id, chat.title);
+
+      openChat(
+        chat.id,
+        chat.title || "Chat " + (index + 1)
+      );
+
       toggleMenu();
+
     };
 
-    // Three dots button
-    const optionsButton = document.createElement("button");
-    optionsButton.className = "chat-options-btn";
+
+    // Three dots
+
+    const optionsButton =
+      document.createElement("button");
+
+    optionsButton.className =
+      "chat-options-btn";
+
     optionsButton.textContent = "⋮";
 
-    optionsButton.onclick = function (event) {
-      event.stopPropagation();
-      showChatOptions(chat.id, chat.title, optionsButton);
-    };
+
+    optionsButton.onclick =
+      function (event) {
+
+        event.stopPropagation();
+
+        showChatOptions(
+          chat.id,
+          chat.title,
+          optionsButton
+        );
+
+      };
+
 
     row.appendChild(chatButton);
     row.appendChild(optionsButton);
 
-    chatList.appendChild(row);
-  });
+    return row;
+  }
+
+
+  // =========================
+  // RECENT 4 CHATS
+  // =========================
+
+  const recentChats =
+    data.slice(0, 4);
+
+  recentChats.forEach(
+    (chat, index) => {
+
+      recentChatList.appendChild(
+        createChatRow(chat, index)
+      );
+
+    }
+  );
+
+
+  // =========================
+  // ALL CHATS
+  // =========================
+
+  data.forEach(
+    (chat, index) => {
+
+      allChatList.appendChild(
+        createChatRow(chat, index)
+      );
+
+    }
+  );
+
+}
+
+
+// =========================
+// TOGGLE ALL CHATS
+// =========================
+
+function toggleAllChats() {
+
+  const allChatList =
+    document.getElementById("allChatList");
+
+  const button =
+    document.querySelector(".all-chats-btn");
+
+
+  if (allChatList.style.display === "none") {
+
+    allChatList.style.display = "block";
+
+    button.textContent = "HIDE ALL CHATS";
+
+  } else {
+
+    allChatList.style.display = "none";
+
+    button.textContent = "ALL CHATS";
+
+  }
+
 }
     
 function showChatOptions(chatId, chatTitle, button) {
