@@ -233,6 +233,38 @@ function showChatOptions(chatId, chatTitle, button) {
   button.parentElement.appendChild(menu);
 }
 
+async function deleteChat(chatId) {
+
+  const confirmDelete = confirm(
+    "Are you sure you want to delete this chat?"
+  );
+
+  if (!confirmDelete) return;
+
+  const { error } = await supabaseClient
+    .from("chats")
+    .delete()
+    .eq("id", chatId);
+
+  if (error) {
+    console.error("Delete chat error:", error);
+    alert("Unable to delete chat.");
+    return;
+  }
+
+  if (currentChatId === chatId) {
+    currentChatId = null;
+
+    document.getElementById("chatTitle").textContent =
+      "Welcome to IY";
+
+    document.getElementById("chatMessages").innerHTML =
+      '<div class="ai-message">Hello! I\'m IY. How can I help you?</div>';
+  }
+
+  await loadChats();
+}
+
     // RENAME BUTTON
 
     const renameButton =
