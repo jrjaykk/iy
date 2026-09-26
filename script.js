@@ -607,21 +607,32 @@ async function sendMessage() {
 try {
 
   console.log("Sending message to backend:", message);
-  const response = await fetch(
-    "https://iy-backend-2.onrender.com/api/chat",
-    {
-      method: "POST",
+  const {
+  data: { session },
+  error: sessionError
+} = await supabaseClient.auth.getSession();
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+if (sessionError || !session) {
+  console.log("User session not found.");
+  addChatMessage("assistant", "Please login again.");
+  return;
+}
 
-      body: JSON.stringify({
-        message: message
-      })
-    }
-  );
+const response = await fetch(
+  "https://iy-backend-2.onrender.com/api/chat",
+  {
+    method: "POST",
 
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": Bearer ${session.access_token}
+    },
+
+    body: JSON.stringify({
+      message: message
+    })
+  }
+);
 
   const data = await response.json();
   console.log("Backend response:", data);
