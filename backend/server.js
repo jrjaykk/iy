@@ -1,20 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const OpenAI = require("openai");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-
-// =========================
-// OPENAI SETUP
-// =========================
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
 
 
 // =========================
@@ -48,16 +38,50 @@ app.post("/api/chat", async (req, res) => {
 
 
     // =========================
-    // OPENAI REQUEST
+    // GEMINI API
     // =========================
 
-    const response = await openai.responses.create({
-      model: "gpt-5.6-luna",
-      input: message
-    });
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": process.env.GEMINI_API_KEY
+        },
+
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: message
+                }
+              ]
+            }
+          ]
+        })
+      }
+    );
 
 
-    const reply = response.output_text;
+    const data = await response.json();
+
+
+    if (!response.ok) {
+      console.error("Gemini API error:", data);
+
+      return res.status(500).json({
+        success: false,
+        error: "Gemini API request failed"
+      });
+    }
+
+
+    const reply =
+      data.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "Gemini did not return a response.";
 
 
     // =========================
@@ -72,11 +96,11 @@ app.post("/api/chat", async (req, res) => {
 
   } catch (error) {
 
-    console.error("OpenAI / Backend error:", error);
+    console.error("Backend error:", error);
 
     res.status(500).json({
       success: false,
-      error: "AI response failed"
+      error: "Internal server error"
     });
 
   }
