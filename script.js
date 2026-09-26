@@ -659,12 +659,11 @@ const { error: aiMessageError } =
     ]);
 
 if (aiMessageError) {
-  console.error(
-    "AI message save error:",
-    aiMessageError
-  );
+  console.error("AI message save error:", aiMessageError);
+  alert("AI message save nahi hua: " + aiMessageError.message);
+} else {
+  console.log("AI message successfully saved!");
 }
-
 
 } catch (error) {
 
