@@ -2,9 +2,9 @@
   "name": "iy-backend",
   "version": "1.0.0",
   "description": "IY AI Backend",
-  "main": "backend/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^5.1.0",
