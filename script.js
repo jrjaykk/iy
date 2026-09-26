@@ -642,6 +642,29 @@ try {
     data.reply
   );
 
+  // =========================
+// SAVE IY RESPONSE
+// =========================
+
+const { error: aiMessageError } =
+  await supabaseClient
+    .from("messages")
+    .insert([
+      {
+        chat_id: currentChatId,
+        user_id: user.id,
+        role: "assistant",
+        content: data.reply
+      }
+    ]);
+
+if (aiMessageError) {
+  console.error(
+    "AI message save error:",
+    aiMessageError
+  );
+}
+
 
 } catch (error) {
 
