@@ -504,8 +504,6 @@ let isSending = false;
 async function sendMessage() {
 
   if (isSending) return;
-
-  isSending = true;
   
   const input =
     document.getElementById("chatInput");
@@ -515,6 +513,7 @@ async function sendMessage() {
 
   if (!message) return;
 
+  isSending = true;
 
   // Create chat if no chat is selected
 
