@@ -499,8 +499,14 @@ function addChatMessage(role, content) {
 // SEND MESSAGE
 // =========================
 
+let isSending = false;
+
 async function sendMessage() {
 
+  if (isSending) return;
+
+  isSending = true;
+  
   const input =
     document.getElementById("chatInput");
 
