@@ -595,6 +595,64 @@ async function sendMessage() {
     }
   }
 
+  // =========================
+// SEND MESSAGE TO IY BACKEND
+// =========================
+
+try {
+
+  const response = await fetch(
+    "https://iy-backend-2.onrender.com/api/chat",
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        message: message
+      })
+    }
+  );
+
+
+  const data = await response.json();
+
+
+  if (!response.ok || !data.success) {
+
+    console.error("Backend error:", data);
+
+    addChatMessage(
+      "assistant",
+      "Sorry, backend se response nahi mila."
+    );
+
+    return;
+  }
+
+
+  // Show IY response
+
+  addChatMessage(
+    "assistant",
+    data.reply
+  );
+
+
+} catch (error) {
+
+  console.error(
+    "Backend connection error:",
+    error
+  );
+
+  addChatMessage(
+    "assistant",
+    "Backend se connect nahi ho pa raha."
+  );
+}
 
   // Clear input
 
