@@ -601,6 +601,7 @@ async function sendMessage() {
 
 try {
 
+  console.log("Sending message to backend:", message);
   const response = await fetch(
     "https://iy-backend-2.onrender.com/api/chat",
     {
@@ -618,6 +619,7 @@ try {
 
 
   const data = await response.json();
+  console.log("Backend response:", data);
 
 
   if (!response.ok || !data.success) {
