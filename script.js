@@ -682,6 +682,9 @@ if (aiMessageError) {
     "assistant",
     "Backend se connect nahi ho pa raha."
   );
+  
+}  finally {
+  isSending = false;
 }
 
   // Clear input
