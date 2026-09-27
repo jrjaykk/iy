@@ -625,7 +625,7 @@ const response = await fetch(
 
     headers: {
       "Content-Type": "application/json",
-      "Authorization": Bearer ${session.access_token}
+      "Authorization": `Bearer ${session.access_token}`
     },
 
     body: JSON.stringify({
